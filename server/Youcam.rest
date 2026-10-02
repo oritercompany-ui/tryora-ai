@@ -1,0 +1,64 @@
+@baseUrl = https://yce-api-01.makeupar.com
+@apiKey = sk-amT5A5r1_21G8CEdZx7SCPYbqykrl2NW10j7sVgv-F0xe8lRY4sxvMbd_PvzuRsp
+
+@uploadUrl = https://yce-us.s3-accelerate.amazonaws.com/ttl30/507630878839538942/121192004415/v2/aeMNNB0KmUIP8rnQ996tC5Q/f4a6d434-b1b5-4743-956e-b9fedb30e7dc.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260930T162644Z&X-Amz-SignedHeaders=content-length%3Bcontent-type%3Bhost&X-Amz-Expires=7200&X-Amz-Credential=AKIARB77EV5Y5D7DAE3S%2F20260930%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=54648731cb8c9a70015bd88b4f8d08b15c43180f1dd3ddd446f41c114317aa7f
+
+### 1. REQUEST UPLOAD URL
+POST {{baseUrl}}/s2s/v2.0/file
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{
+  "files": [
+    {
+      "content_type": "image/jpeg",
+      "file_name": "test-photo.jpg",
+      "file_size": 13943
+    }
+  ]
+}
+
+
+### 2. UPLOAD PHOTO TO YOUCAM
+
+PUT {{uploadUrl}}
+Content-Type: image/jpeg
+Content-Length: 13943
+
+< ./test-photo.jpg
+
+
+### 3. Makeup VTO - Local Uploaded Photo
+### TEST MAKEUP VTO - OFFICIAL SAMPLE
+
+POST {{baseUrl}}/s2s/v2.0/task/makeup-vto
+Authorization: Bearer {{apiKey}}
+Content-Type: application/json
+
+{
+  "src_file_url": "https://plugins-media.makeupar.com/strapi/assets/sample_Image_1_202b6bf6e6.jpg",
+  "effects": [
+    {
+      "category": "blush",
+      "pattern": {
+        "name": "1color1"
+      },
+      "palettes": [
+        {
+          "color": "#FF5C7A",
+          "texture": "matte",
+          "colorIntensity": 70
+        }
+      ]
+    }
+  ],
+  "version": "1.0"
+}
+
+
+### CHECK OFFICIAL SAMPLE
+
+GET {{baseUrl}}/s2s/v2.0/task/makeup-vto/yTXoJwLn9cLC_9PYuMP1aT58YQjbjPSxpWj1i1R4rJyQPWahoX6AhEY5oIuwCVZH
+Authorization: Bearer {{apiKey}}
+Accept: application/json
+
